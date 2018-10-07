@@ -1,41 +1,47 @@
-node{
-try{
-    stage('Downloading code'){
+node {
+try {
+    stage('Downloading code') {
     git 'https://github.com/hemanth22/Fibonocci-CPP.git'
     }
-    stage('Building'){
-              parallel{
-                  stage('Building App 1'){
-                  sh 'make main'
+    stage('Building') {
+              parallel {
+                  stage('Building App 1') {
+                      step {
+                          sh 'make main' 
+                          }
                   }
-                  stage('Building App 2'){
-                  sh 'make factorial'
+                  stage('Building App 2') {
+                      step {
+                      sh 'make factorial'
+                      }
                   }
-                  stage('Building App 3'){
-                  sh 'make hello'
+                  stage('Building App 3') {
+                      step {
+                      sh 'make hello'
+                      } 
                   }
               }
          }
-    stage('Compile'){
+    stage('Compile') {
     sh 'make function'
     }
-    stage('Execute'){
+    stage('Execute') {
     sh './Out'
     }
-    stage('Clean binary codes'){
+    stage('Clean binary codes') {
     sh 'make clean'
     }
-    stage ('Archive'){
+    stage ('Archive') {
     archiveArtifacts '*'
     }
     notify('Success')
-    }catch(err){
+    }catch(err) {
     notify("Error ${err}")
     currentBuild.result = 'FAILURE'
     }
 }
 
-def notify(status){
+def notify(status) {
     emailext (
       to: "root@localhost.localdomain",
       subject: "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
