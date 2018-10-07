@@ -1,25 +1,38 @@
-node {
+node{
 try{
-stage ('Downloading git repository'){
-git 'https://github.com/hemanth22/Fibonocci-CPP.git'
-}
-stage ('Build and execute'){
-sh 'make'
-}
-stage ('Complete result file'){
-sh './Out > Result.txt'
-}
-stage ('Cleaning Build file'){
-sh 'make clean'
-}
-stage ('Archive'){
-archiveArtifacts '*'
-}
-notify('Success')
-}catch(err){
-  notify("Error ${err}")
-  currentBuild.result = 'FAILURE'
-}
+    stage('Downloading code'){
+    git 'https://github.com/hemanth22/Fibonocci-CPP.git'
+    }
+    stage('Building'){
+              parallel{
+                  stage('Building App 1'){
+                  sh 'make main'
+                  }
+                  stage('Building App 2'){
+                  sh 'make factorial'
+                  }
+                  stage('Building App 3'){
+                  sh 'make hello'
+                  }
+              }
+         }
+    stage('Compile'){
+    sh 'make function'
+    }
+    stage('Execute'){
+    sh './Out'
+    }
+    stage('Clean binary codes'){
+    sh 'make clean'
+    }
+    stage ('Archive'){
+    archiveArtifacts '*'
+    }
+    notify('Success')
+    }catch(err){
+    notify("Error ${err}")
+    currentBuild.result = 'FAILURE'
+    }
 }
 
 def notify(status){
