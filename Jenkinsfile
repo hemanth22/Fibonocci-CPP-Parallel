@@ -10,7 +10,7 @@ parallel build1: {
         sh 'make factorial'
     },build3: {
         sh 'make hello'
-    },
+    }
 }
 stage ('Compile binary files'){
 sh 'make compile'
