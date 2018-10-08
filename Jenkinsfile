@@ -1,7 +1,7 @@
 node {
 try{
 stage ('Downloading git repository'){
-git 'https://github.com/hemanth22/Fibonocci-CPP.git'
+git 'https://github.com/hemanth22/Fibonocci-CPP-Parallel.git'
 }
 stage ('Build and execute'){
 parallel build1: {
