@@ -1,51 +1,50 @@
-node {
-try {
-    stage('Downloading code') {
-    git 'https://github.com/hemanth22/Fibonocci-CPP.git'
-    }
-    stage('Building') {
-              parallel {
-                  stage('Building App 1') {
-                      step {
+
+pipeline{
+      agent any
+      stages {
+          stage('Downloading code') {
+          steps{
+          git 'https://github.com/hemanth22/Fibonocci-CPP-Parallel.git'
+          }
+          }// Downloading
+          stage('Building') {
+          parallel {
+                   stage('Building App 1') {
+                          steps {
                           sh 'make main' 
                           }
-                  }
+                  }// Building app1
                   stage('Building App 2') {
-                      step {
+                      steps {
                       sh 'make factorial'
                       }
-                  }
+                  }// Building app2
                   stage('Building App 3') {
-                      step {
+                      steps{
                       sh 'make hello'
-                      } 
-                  }
-              }
-         }
-    stage('Compile') {
-    sh 'make function'
-    }
-    stage('Execute') {
-    sh './Out'
-    }
-    stage('Clean binary codes') {
-    sh 'make clean'
-    }
-    stage ('Archive') {
-    archiveArtifacts '*'
-    }
-    notify('Success')
-    }catch(err) {
-    notify("Error ${err}")
-    currentBuild.result = 'FAILURE'
-    }
-}
-
-def notify(status) {
-    emailext (
-      to: "root@localhost.localdomain",
-      subject: "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      body: """<p>${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
-    )
-}
+                      }
+                  }// Building app3
+          } // parallel
+          } // Building
+          stage('Compile') {
+          steps {
+          sh 'make function'
+          }
+          } //Compile
+          stage('Execute') {
+          steps {
+          sh './Out'
+          }
+          } // Execute
+          stage('Clean binary codes') {
+          steps {
+          sh 'make clean'
+          }
+          } // Clean
+          stage ('Archive') {
+          steps {
+          archiveArtifacts '*'
+          }
+          } // Archive
+      } // stages
+} //pipeline
