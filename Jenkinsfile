@@ -1,4 +1,3 @@
-
 node {
 try{
 stage ('Downloading git repository'){
