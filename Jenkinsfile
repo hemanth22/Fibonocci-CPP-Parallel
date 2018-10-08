@@ -3,7 +3,7 @@ try{
 stage ('Downloading git repository'){
 git 'https://github.com/hemanth22/Fibonocci-CPP-Parallel.git'
 }
-stage ('Build and execute'){
+stage ('Build'){
 parallel build1: {
         sh 'make main'
     }, build2: {
