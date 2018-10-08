@@ -1,6 +1,8 @@
 all: function
 function: main factorial hello
 	g++ main.o factorial.o hello.o -o Out
+compile:
+	g++ main.o factorial.o hello.o -o Out
 main: main.cpp
 	g++ -c main.cpp
 factorial: factorial.cpp
