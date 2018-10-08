@@ -13,7 +13,7 @@ parallel build1: {
     },
 }
 stage ('Compile binary files'){
-sh 'make function'
+sh 'make compile'
 }
 stage ('Complete result file'){
 sh './Out > Result.txt'
