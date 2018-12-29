@@ -1,7 +1,7 @@
 node {
 try{
 stage ('Downloading git repository'){
-git 'https://github.com/hemanth22/Fibonocci-CPP.git'
+git 'https://github.com/hemanth22/Fibonocci-CPP.git' 
 }
 stage ('Approval Management'){
 input 'Approval for deployment'
